@@ -1,0 +1,19 @@
+#root {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+    border-radius: 10px solid;
+
+    --dark-green: #0f8e77;
+    --light-green: #5cf4c3;
+    --orange: #f4a049;
+}
+
+.card {
+    padding: 2em;
+}
+
+div {
+    justify-content: end;
+}

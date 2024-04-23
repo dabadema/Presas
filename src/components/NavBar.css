@@ -1,0 +1,33 @@
+/* En tu archivo NavBar.css */
+.navbar {
+    background-color: #0f8e77; /* Verde Oscuro de tu paleta */
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-user-info {
+    color: white;
+    font-size: 1rem;
+}
+
+.navbar-nav {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item {
+    margin-left: 20px;
+    padding: 10px;
+    background: #5cf4c3; /* Turquesa claro de tu paleta */
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.nav-item:hover {
+    background-color: #4ae0b0; /* Un tono más claro para efecto hover */
+}

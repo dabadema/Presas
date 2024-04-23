@@ -1,0 +1,47 @@
+#root {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+    color: black;
+    border-radius: 10px solid;
+
+    --dark-green: #0f8e77;
+    --light-green: #5cf4c3;
+    --orange: #f4a049;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 300px; /* O el ancho que mejor se ajuste a tu diseño */
+    border: 4px solid var(--light-green); /* Usando el color de tu esquema */
+    padding: 20px;
+    border-radius: 10px; /* Puedes ajustar esto según tu preferencia */
+}
+
+input {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid var(--light-green); /* Usando el color de tu esquema */
+    border-radius: 5px;
+}
+input:focus {
+    outline: none; /* Esto quita el resplandor azul predeterminado */
+    border: 1px solid #0f8e77; /* Cambia esto al color de borde que prefieras */
+    box-shadow: 0 0 5px #0f8e77; /* Esto añade un resplandor verde oscuro */
+}
+
+button {
+    padding: 10px;
+    background-color: var(--orange); /* Usando el color de tu esquema */
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover,
+button:focus {
+    background-color: var(--dark-green); /* Un tono más oscuro para el hover */
+}
