@@ -1,26 +1,14 @@
-// En tu archivo NavBar.tsx
 import React from 'react';
-import './NavBar.css';
+import { Link } from 'react-router-dom';
 
-type UserInfo = {
-    nombre: string;
-    tipo: string;
-};
-
-const NavBar: React.FC<{ userInfo: UserInfo }> = ({ userInfo }) => {
+const NavBar = () => {
     return (
-        <nav className="navbar">
-            <span className="navbar-user-info">{userInfo.nombre}</span>
-            <ul className="navbar-nav">
-                <li className="nav-item">Mi perfil</li>
-                <li className="nav-item">Administradores</li>
-                <li className="nav-item">Centros deportivos</li>
-                <li className="nav-item">Instalaciones</li>
-                <li className="nav-item">Membresías</li>
-                <li className="nav-item">Reservas</li>
-                <li className="nav-item">Consultas</li>
-                <li className="nav-item">Logout</li>
-            </ul>
+        <nav>
+            {/* Enlaces o botones que llevan a las diferentes partes del dashboard */}
+            <Link to="/dashboard/mi-perfil">Mi Perfil</Link>
+            <Link to="/dashboard/reservas">Reservas</Link>
+            <Link to="/dashboard/membresias">Membresias</Link>
+            <Link to="/dashboard/consultas">Consultas</Link>
         </nav>
     );
 };
