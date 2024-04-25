@@ -1,14 +1,44 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import './NavBar.css';
 
 const NavBar = () => {
     return (
-        <nav>
-            {/* Enlaces o botones que llevan a las diferentes partes del dashboard */}
-            <Link to="/dashboard/mi-perfil">Mi Perfil</Link>
-            <Link to="/dashboard/reservas">Reservas</Link>
-            <Link to="/dashboard/membresias">Membresias</Link>
-            <Link to="/dashboard/consultas">Consultas</Link>
+        <nav className="navbar">
+            <ul>
+                <li>
+                    <NavLink
+                        to="/dashboard/mi-perfil"
+                        className={({ isActive }) => (isActive ? 'active' : '')}
+                    >
+                        Mi Perfil
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink
+                        to="/dashboard/reservas"
+                        className={({ isActive }) => (isActive ? 'active' : '')}
+                    >
+                        Reservas
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink
+                        to="/dashboard/membresias"
+                        className={({ isActive }) => (isActive ? 'active' : '')}
+                    >
+                        Membresias
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink
+                        to="/dashboard/consultas"
+                        className={({ isActive }) => (isActive ? 'active' : '')}
+                    >
+                        Consultas
+                    </NavLink>
+                </li>
+            </ul>
         </nav>
     );
 };

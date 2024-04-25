@@ -1,33 +1,23 @@
-/* En tu archivo NavBar.css */
-.navbar {
-    background-color: #0f8e77; /* Verde Oscuro de tu paleta */
-    padding: 0.5rem 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.navbar-user-info {
-    color: white;
-    font-size: 1rem;
-}
-
-.navbar-nav {
+/* NavBar.css */
+.navbar ul {
     list-style: none;
-    display: flex;
-    margin: 0;
     padding: 0;
+    margin: 0;
 }
 
-.nav-item {
-    margin-left: 20px;
-    padding: 10px;
-    background: #5cf4c3; /* Turquesa claro de tu paleta */
+.navbar li {
+    margin-bottom: 10px;
+}
+
+.navbar a {
     color: white;
-    border-radius: 5px;
-    cursor: pointer;
+    text-decoration: none;
+    padding: 10px;
+    display: block; /* Hace que el enlace sea más fácil de clickear */
 }
 
-.nav-item:hover {
-    background-color: #4ae0b0; /* Un tono más claro para efecto hover */
+.navbar a.active {
+    font-weight: bold; /* Estilo para el enlace activo */
+    background-color: #4ae0b0; /* Cambio de color para el enlace activo */
+    border-radius: 12px;
 }

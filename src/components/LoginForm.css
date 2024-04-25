@@ -1,10 +1,4 @@
 #root {
-    max-width: 1280px;
-    padding: 2rem;
-    text-align: center;
-    color: black;
-    font-size: large;
-
     --dark-green: #0f8e77;
     --light-green: #5cf4c3;
     --orange: #f4a049;

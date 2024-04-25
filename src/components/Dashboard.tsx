@@ -5,17 +5,20 @@ import Reservas from './Reservas';
 import Membresias from './Membresias';
 import Consultas from './Consultas';
 import NavBar from './NavBar';
+import './Dashboard.css';
 
 const Dashboard = () => {
     return (
-        <div>
+        <div className="dashboard-container">
             <NavBar />
-            <Routes>
-                <Route path="mi-perfil" element={<MiPerfil />} />
-                <Route path="reservas" element={<Reservas />} />
-                <Route path="membresias" element={<Membresias />} />
-                <Route path="consultas" element={<Consultas />} />
-            </Routes>
+            <div className="dashboard-content">
+                <Routes>
+                    <Route path="mi-perfil" element={<MiPerfil />} />
+                    <Route path="reservas" element={<Reservas />} />
+                    <Route path="membresias" element={<Membresias />} />
+                    <Route path="consultas" element={<Consultas />} />
+                </Routes>
+            </div>
         </div>
     );
 };

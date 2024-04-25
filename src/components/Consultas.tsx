@@ -1,4 +1,5 @@
 import React from 'react';
+import './Consultas.css';
 
 const Consultas = () => {
     return (

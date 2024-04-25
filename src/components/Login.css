@@ -1,10 +1,4 @@
 #root {
-    max-width: 1280px;
-    padding: 2rem;
-    text-align: center;
-    color: black;
-    font-size: large;
-
     --dark-green: #0f8e77;
     --light-green: #5cf4c3;
     --orange: #f4a049;
@@ -20,17 +14,7 @@ button {
     cursor: pointer;
     transition: border-color 0.25s;
 }
-button {
-    border-radius: 8px;
-    border: 3px solid transparent;
-    padding: 0.6em 1.2em;
-    font-size: 1em;
-    font-weight: 500;
-    font-family: inherit;
-    background-color: var(--orange);
-    cursor: pointer;
-    transition: border-color 0.25s;
-}
+
 button:hover {
     border-color: var(--orange);
     background-color: white;
@@ -40,23 +24,32 @@ button:focus-visible {
     outline: 8px auto;
 }
 
-div {
+.form-frame {
     display: flex;
-    background-color: white;
-}
-
-div .form-frame {
     border-radius: 4px;
+    justify-content: center;
+    align-items: center;
     margin: 10px;
     padding: 6px;
     background-color: var(--light-green);
+    border: 2px solid var(--light-green);
+    width: 300px;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-content: center;
 }
 
 form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     border: 4px solid var(--light-green);
     border-radius: 20px;
     min-height: 250px;
-    min-width: 300px;
+    min-width: 400px;
     padding: 10px;
     align-items: center;
 }
@@ -64,3 +57,5 @@ form {
 label {
     align-items: center;
 }
+
+/* TODO centrar en la pantalla el recuadro del login */

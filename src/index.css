@@ -1,8 +1,8 @@
 :root {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    height: 100vh;
     line-height: 1.5;
     font-weight: 400;
-    border-radius: 12px;
 
     color: black;
     background-color: white;
@@ -23,12 +23,12 @@ a {
     text-decoration: inherit;
 }
 a:hover {
-    color: #535bf2;
+    color: var(--orange);
+    font-weight: bold;
 }
 
 body {
     margin: auto;
-    display: flex;
     justify-content: center;
     align-items: center;
     min-width: 420px;
@@ -40,23 +40,3 @@ h1 {
     font-size: 3.2em;
     line-height: 1.1;
 }
-
-/* button {
-    border-radius: 8px;
-    border: 3px solid transparent;
-    padding: 0.6em 1.2em;
-    font-size: 1em;
-    font-weight: 500;
-    font-family: inherit;
-    background-color: var(--orange);
-    cursor: pointer;
-    transition: border-color 0.25s;
-}
-button:hover {
-    border-color: var(--orange);
-    background-color: white;
-}
-button:focus,
-button:focus-visible {
-    outline: 8px auto;
-} */
