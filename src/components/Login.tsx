@@ -6,7 +6,7 @@ type LoginFormProps = {
     onLogin: (email: string, password: string) => void;
 };
 
-const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
+const Login: React.FC<LoginFormProps> = ({ onLogin }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
@@ -20,35 +20,41 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
 
     return (
         <div className="login-container">
-            <form onSubmit={handleLogin}>
+            <form className="login-form" onSubmit={handleLogin}>
                 <h1 className="title"> G.I.D. </h1>
                 <div className="form-frame">
-                    <label htmlFor="email">Email:</label>
+                    {/* <label htmlFor="email"></label> */}
                     <input
+                        className="input-user"
                         type="email"
                         id="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        required
+                        placeholder="Email"
+                        // required
                     />
                 </div>
                 <div className="form-frame">
-                    <label htmlFor="password">Password:</label>
+                    {/* <label htmlFor="password"></label> */}
                     <input
+                        className="input-user"
                         type="password"
                         id="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        required
+                        placeholder="Contraseña"
+                        // required
                     />
                 </div>
                 <button type="submit">Login</button>
                 <p>Olvidé mi contraseña</p>
-                <button type="button">Crear un nuevo usuario</button>{' '}
+                <button type="button" onClick={() => navigate('/new-user')}>
+                    Crear un nuevo usuario
+                </button>
                 {/* Asegúrate de que este botón no envíe el formulario */}
             </form>
         </div>
     );
 };
 
-export default LoginForm;
+export default Login;

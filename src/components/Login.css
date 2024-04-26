@@ -8,6 +8,7 @@ button {
     border-radius: 8px;
     border: 3px solid transparent;
     padding: 0.6em 1.2em;
+    margin: 15px 0px 15px 0px;
     font-size: 1em;
     font-family: inherit;
     background-color: orange;
@@ -21,7 +22,7 @@ button:hover {
 }
 button:focus,
 button:focus-visible {
-    outline: 8px auto;
+    outline: 8px var(--dark-green);
 }
 
 .form-frame {
@@ -29,20 +30,21 @@ button:focus-visible {
     border-radius: 4px;
     justify-content: center;
     align-items: center;
-    margin: 10px;
+    margin: 6px;
     padding: 6px;
     background-color: var(--light-green);
     border: 2px solid var(--light-green);
-    width: 300px;
+    width: 400px;
 }
 
 .login-container {
     display: flex;
     justify-content: center;
-    align-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
-form {
+.login-form {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -51,10 +53,6 @@ form {
     min-height: 250px;
     min-width: 400px;
     padding: 10px;
-    align-items: center;
-}
-
-label {
     align-items: center;
 }
 
