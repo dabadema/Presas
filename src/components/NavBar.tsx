@@ -1,8 +1,15 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import './NavBar.css';
 
 const NavBar = () => {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        // Aquí puedes agregar la lógica para manejar el proceso de logout
+        navigate('/login');
+    };
+
     return (
         <nav className="navbar">
             <ul>
@@ -39,6 +46,9 @@ const NavBar = () => {
                     </NavLink>
                 </li>
             </ul>
+            <div className="logout-container">
+                <button onClick={handleLogout}>Logout</button>
+            </div>
         </nav>
     );
 };

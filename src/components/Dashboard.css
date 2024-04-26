@@ -11,7 +11,7 @@
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    height: 100vh; /* Asegura que se extienda toda la altura */
+    height: 97vh; /* Asegura que se extienda toda la altura */
 }
 
 .dashboard-content {

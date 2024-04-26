@@ -21,3 +21,14 @@
     background-color: #4ae0b0; /* Cambio de color para el enlace activo */
     border-radius: 12px;
 }
+
+.logout-container {
+    margin-top: auto; /* Empuja el botón de logout hacia la parte inferior */
+    margin-bottom: 20px;
+    padding: 20px; /* Agrega un poco de padding */
+}
+
+.logout-container button {
+    width: 100%; /* Asegura que el botón ocupe todo el ancho del contenedor */
+    /* ...otros estilos del botón... */
+}
