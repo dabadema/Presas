@@ -23,7 +23,7 @@
     justify-content: center;
     align-items: center;
     margin: 3px 0px 3px 0px;
-    padding: 1cm;
+    padding: 1px;
     background-color: var(--light-green);
     border: 0px solid var(--light-green);
     width: 350px;
