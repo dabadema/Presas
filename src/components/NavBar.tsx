@@ -2,11 +2,11 @@ import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import './NavBar.css';
 
-const NavBar = () => {
+const NavBar = ({ tipo_usuario }) => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        // Aquí puedes agregar la lógica para manejar el proceso de logout
+        // #TODO Aquí puedes agregar la lógica para manejar el proceso de logout
         navigate('/login');
     };
 
@@ -21,6 +21,38 @@ const NavBar = () => {
                         Mi Perfil
                     </NavLink>
                 </li>
+                {/* Enlaces exclusivos para Superadministradores */}
+                {tipo_usuario === 'superadministrador' && (
+                    <>
+                        <li>
+                            <NavLink
+                                to="/dashboard/administradores"
+                                className={({ isActive }) => (isActive ? 'active' : '')}
+                            >
+                                Administradores
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to="/dashboard/centros-deportivos"
+                                className={({ isActive }) => (isActive ? 'active' : '')}
+                            >
+                                Centros Deportivos
+                            </NavLink>
+                        </li>
+                    </>
+                )}
+                {/* Enlaces para Administradores y Superadministradores */}
+                {(tipo_usuario === 'administrador' || tipo_usuario === 'superadministrador') && (
+                    <li>
+                        <NavLink
+                            to="/dashboard/instalaciones"
+                            className={({ isActive }) => (isActive ? 'active' : '')}
+                        >
+                            Instalaciones
+                        </NavLink>
+                    </li>
+                )}
                 <li>
                     <NavLink
                         to="/dashboard/reservas"
