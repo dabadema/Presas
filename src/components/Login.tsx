@@ -47,11 +47,13 @@ const Login: React.FC<LoginFormProps> = ({ onLogin }) => {
                     />
                 </div>
                 <button type="submit">Login</button>
-                <p>Olvidé mi contraseña</p>
-                <button type="button" onClick={() => navigate('/new-user')}>
-                    Crear un nuevo usuario
-                </button>
-                {/* Asegúrate de que este botón no envíe el formulario */}
+                <div className="alternatives">
+                    <p>Olvidé mi contraseña</p>
+                    <button type="button" onClick={() => navigate('/new-user')}>
+                        Crear un nuevo usuario
+                    </button>
+                    {/* Asegúrate de que este botón no envíe el formulario */}
+                </div>
             </form>
         </div>
     );
