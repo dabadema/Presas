@@ -7,6 +7,7 @@ const NewUser: React.FC = () => {
         nombre: '',
         apellidos: '',
         direccion: '',
+        telefono: '',
         email: '',
         password: '',
         confirmPassword: '',
@@ -34,6 +35,11 @@ const NewUser: React.FC = () => {
             navigate('/login');
         }, 3000); // 3 segundos para mostrar el modal antes de redirigir
     };
+
+    const handleCancel = () => {
+        navigate('/login');
+    };
+    navigate('/login');
 
     return (
         <div className="new-user-container">
@@ -76,6 +82,17 @@ const NewUser: React.FC = () => {
                 <div className="form-frame">
                     <input
                         className="input-user"
+                        type="text"
+                        name="telefono"
+                        value={formData.telefono}
+                        onChange={handleChange}
+                        placeholder="Teléfono"
+                        required
+                    />
+                </div>
+                <div className="form-frame">
+                    <input
+                        className="input-user"
                         type="email"
                         name="email"
                         value={formData.email}
@@ -106,7 +123,12 @@ const NewUser: React.FC = () => {
                         required
                     />
                 </div>
-                <button type="submit">Crear usuario</button>
+                <div className="form-actions">
+                    <button type="submit">Crear usuario</button>
+                    <button type="button" onClick={handleCancel}>
+                        Cancelar
+                    </button>
+                </div>
             </form>
         </div>
     );
