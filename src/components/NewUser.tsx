@@ -11,40 +11,59 @@ const NewUser: React.FC = () => {
         email: '',
         password: '',
         confirmPassword: '',
+        tipoUsuario: '', //Pendiente resolver porque me deja enviarlo nulo, en principio este componente siempre va a ir con el tipoUsuario que va a ser "usuario"
     });
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    // const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('Hola que pasas aqui');
-        // const { name, value } = event.target;
-        // setFormData({ ...formData, [name]: value });
+        event.preventDefault();
+        const { name, value } = event.target;
+        setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = (event: React.FormEvent) => {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         if (formData.password !== formData.confirmPassword) {
             alert('Las contraseñas no coinciden.');
             return;
         }
-        // Aquí deberías enviar los datos a tu API o servidor para crear el usuario
-        // Simulamos el éxito mostrando el modal
-        setIsModalOpen(true);
-        // Luego de un tiempo o al cerrar el modal, redirigimos al login
-        setTimeout(() => {
-            setIsModalOpen(false);
+
+        try {
+            const response = await fetch('http://localhost:3000/usuarios', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    nombre: formData.nombre,
+                    apellidos: formData.apellidos,
+                    direccion: formData.direccion,
+                    telefono: formData.telefono,
+                    email: formData.email,
+                    password: formData.password,
+                    tipoUsuario: formData.tipoUsuario,
+                }),
+            });
+
+            if (!response.ok) throw new Error('Error en la creación del usuario');
+
+            const data = await response.json();
+            alert('Usuario creado con éxito: ' + data.nombre);
             navigate('/login');
-        }, 3000); // 3 segundos para mostrar el modal antes de redirigir
+        } catch (error) {
+            console.error('Error al crear el usuario:', error);
+            alert('Error al crear el usuario');
+        }
     };
 
     const handleCancel = () => {
         navigate('/login');
     };
-    navigate('/login');
 
     return (
         <div className="new-user-container">
-            {isModalOpen && <div className="modal">Usuario creado con éxito.</div>}
+            {/* {isModalOpen && <div className="modal">Usuario creado con éxito.</div>} */}
             <form className="new-user-form" onSubmit={handleSubmit}>
                 <h1 className="title">Crear nuevo usuario</h1>
                 <div className="form-frame">
@@ -77,7 +96,6 @@ const NewUser: React.FC = () => {
                         value={formData.direccion}
                         onChange={handleChange}
                         placeholder="Dirección"
-                        required
                     />
                 </div>
                 <div className="form-frame">
