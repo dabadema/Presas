@@ -16,8 +16,9 @@ const NewUser: React.FC = () => {
     const navigate = useNavigate();
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-        setFormData({ ...formData, [name]: value });
+        console.log('Hola que pasas aqui');
+        // const { name, value } = event.target;
+        // setFormData({ ...formData, [name]: value });
     };
 
     const handleSubmit = (event: React.FormEvent) => {
