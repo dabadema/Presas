@@ -32,3 +32,9 @@
     width: 100%; /* Asegura que el botón ocupe todo el ancho del contenedor */
     /* ...otros estilos del botón... */
 }
+
+.danger-button:hover {
+    background-color: red;
+    color: white;
+    border-color: red;
+}

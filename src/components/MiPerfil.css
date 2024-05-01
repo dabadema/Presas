@@ -62,3 +62,9 @@
     font-size: x-large;
     margin: 30px 0px 30px 0px;
 }
+
+.danger-button:hover {
+    background-color: red;
+    color: white;
+    border-color: red;
+}

@@ -79,7 +79,9 @@ const NavBar = ({ tipo_usuario }) => {
                 </li>
             </ul>
             <div className="logout-container">
-                <button onClick={handleLogout}>Logout</button>
+                <button className="danger-button" onClick={handleLogout}>
+                    Cerrar sesión
+                </button>
             </div>
         </nav>
     );

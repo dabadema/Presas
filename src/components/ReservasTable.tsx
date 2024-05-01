@@ -29,7 +29,7 @@ const ReservasTable: React.FC<ReservasTableProps> = ({ reservas }) => {
                     <th>Instalación</th>
                     <th>Hora de Inicio</th>
                     <th>Hora de Fin</th>
-                    <th>Acciones</th>
+                    <th>Acción</th>
                 </tr>
             </thead>
             <tbody>

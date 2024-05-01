@@ -126,7 +126,7 @@ const NewUser: React.FC = () => {
                 </div>
                 <div className="form-actions">
                     <button type="submit">Crear usuario</button>
-                    <button type="button" onClick={handleCancel}>
+                    <button className="danger-button" type="button" onClick={handleCancel}>
                         Cancelar
                     </button>
                 </div>

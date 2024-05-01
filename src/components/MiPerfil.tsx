@@ -121,7 +121,7 @@ const MiPerfil = () => {
                         <button type="button" onClick={handleSave}>
                             Guardar Cambios
                         </button>
-                        <button type="button" onClick={handleCancel}>
+                        <button className="danger-button" type="button" onClick={handleCancel}>
                             Cancelar
                         </button>
                     </div>
