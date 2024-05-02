@@ -6,7 +6,8 @@ const NavBar = ({ tipo_usuario }) => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        // #TODO Aquí puedes agregar la lógica para manejar el proceso de logout
+        // Limpiar localStorage
+        localStorage.clear();
         navigate('/login');
     };
 

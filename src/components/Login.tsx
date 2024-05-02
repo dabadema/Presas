@@ -3,20 +3,45 @@ import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
 type LoginFormProps = {
-    onLogin: (email: string, password: string) => void;
+    onLogin?: (email: string, password: string) => void;
 };
 
 const Login: React.FC<LoginFormProps> = ({ onLogin }) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [showModal, setShowModal] = useState(false);
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [showModal, setShowModal] = useState<boolean>(false);
     const navigate = useNavigate();
 
-    const handleLogin = (event: React.FormEvent) => {
+    const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault(); // Esto evita que el formulario se envíe tradicionalmente.
-        // Aquí puedes eventualmente añadir la lógica para validar las credenciales de usuario
-        // Por ahora, simplemente navegaremos al dashboard como si la autenticación fuera exitosa
-        navigate('/dashboard/mi-perfil'); // Navega a la página de perfil del usuario en el dashboard
+        try {
+            const response = await fetch('http://localhost:3000/usuarios/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                console.log('Login successful:', data);
+                // Lógica después de un login exitoso #TODO pendiente de instaurar las contraseñas hasheadas
+                localStorage.setItem(
+                    'user',
+                    JSON.stringify({
+                        tipoUsuario: data.tipoUsuario,
+                        userId: data.userId,
+                        email: data.email,
+                    })
+                );
+                navigate('/dashboard/mi-perfil');
+            } else {
+                throw new Error(data.message || 'Usuario o contraseña incorrectos');
+            }
+        } catch (error: any) {
+            window.alert(error.message);
+        }
     };
 
     const handleForgotPassword = () => {
@@ -45,7 +70,6 @@ const Login: React.FC<LoginFormProps> = ({ onLogin }) => {
             <form className="login-form" onSubmit={handleLogin}>
                 <h1 className="title"> G.I.D. </h1>
                 <div className="form-frame">
-                    {/* <label htmlFor="email"></label> */}
                     <input
                         className="input-user"
                         type="email"
@@ -57,7 +81,6 @@ const Login: React.FC<LoginFormProps> = ({ onLogin }) => {
                     />
                 </div>
                 <div className="form-frame">
-                    {/* <label htmlFor="password"></label> */}
                     <input
                         className="input-user"
                         type="password"

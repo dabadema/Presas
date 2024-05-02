@@ -11,7 +11,7 @@ const NewUser: React.FC = () => {
         email: '',
         password: '',
         confirmPassword: '',
-        tipoUsuario: 'usuario',
+        tipoUsuario: 'usuario', // En este caso siempre va a ser del tipo "usuario"
     });
     // const [isModalOpen, setIsModalOpen] = useState(false);  Modales pendientes de implementar
     const navigate = useNavigate();

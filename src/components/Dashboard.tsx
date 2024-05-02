@@ -11,7 +11,9 @@ import CentrosDeportivos from './CentrosDeportivos';
 import Instalaciones from './Instalaciones';
 
 const Dashboard = () => {
-    const tipo_usuario = 'superadministrador'; //#TODO Reemplazar con la lógica de obtención real de este dato
+    // Obtener la información del usuario desde el localStorage
+    const userInfo = JSON.parse(localStorage.getItem('user') || '{}');
+    const tipo_usuario = userInfo.tipoUsuario; //#TODO Reemplazar con la lógica de obtención real de este dato
 
     return (
         <div className="dashboard-container">
@@ -19,9 +21,16 @@ const Dashboard = () => {
             <div className="dashboard-content">
                 <Routes>
                     <Route path="mi-perfil" element={<MiPerfil />} />
-                    <Route path="administradores" element={<AdminComp />} />
-                    <Route path="centros-deportivos" element={<CentrosDeportivos />} />
-                    <Route path="instalaciones" element={<Instalaciones />} />
+                    {tipo_usuario === 'superadministrador' && (
+                        <Route path="administradores" element={<AdminComp />} />
+                    )}
+                    {tipo_usuario === 'superadministrador' && (
+                        <Route path="centros-deportivos" element={<CentrosDeportivos />} />
+                    )}
+                    {(tipo_usuario === 'administrador' ||
+                        tipo_usuario === 'superadministrador') && (
+                        <Route path="instalaciones" element={<Instalaciones />} />
+                    )}
                     <Route path="reservas" element={<Reservas />} />
                     <Route path="membresias" element={<Membresias />} />
                     <Route path="consultas" element={<Consultas />} />
