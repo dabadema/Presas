@@ -11,9 +11,9 @@ const NewUser: React.FC = () => {
         email: '',
         password: '',
         confirmPassword: '',
-        tipoUsuario: '', //Pendiente resolver porque me deja enviarlo nulo, en principio este componente siempre va a ir con el tipoUsuario que va a ser "usuario"
+        tipoUsuario: 'usuario',
     });
-    // const [isModalOpen, setIsModalOpen] = useState(false);
+    // const [isModalOpen, setIsModalOpen] = useState(false);  Modales pendientes de implementar
     const navigate = useNavigate();
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,6 +48,7 @@ const NewUser: React.FC = () => {
 
             if (!response.ok) throw new Error('Error en la creación del usuario');
 
+            console.log('respuesta', response);
             const data = await response.json();
             alert('Usuario creado con éxito: ' + data.nombre);
             navigate('/login');

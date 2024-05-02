@@ -10,6 +10,7 @@ button {
     padding: 10px 28px;
     margin: 20px 5px 10px 5px;
     font-size: 1em;
+    font-weight: 700;
     font-family: inherit;
     color: white;
     background-color: orange;
@@ -67,4 +68,44 @@ button:focus-visible {
     justify-content: center;
     margin-top: 15px;
     margin-bottom: 15px;
+}
+.alternatives button {
+    margin: 0px 5px 10px 5px;
+}
+
+.alert-button:hover {
+    background-color: yellow;
+    color: black;
+    border-color: yellow;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.2); /* Fondo blanco semitransparente */
+    z-index: 10; /* Asegura que esté sobre otros contenidos */
+}
+
+.modal-content {
+    background-color: white;
+    height: 90px;
+    width: 500px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--dark-green);
+}
+
+.close-button {
+    float: right;
+    font-size: 2rem;
+    font-weight: bold;
+    cursor: pointer;
 }
