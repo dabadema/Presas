@@ -101,6 +101,16 @@ const AdminComp: React.FC = () => {
                 setAdministradores([...administradores, data]);
                 setIsModalOpen(true);
                 setTimeout(() => setIsModalOpen(false), 3000);
+                setAdminData({
+                    nombre: '',
+                    apellidos: '',
+                    direccion: '',
+                    centroId: '',
+                    telefono: '',
+                    email: '',
+                    password: '',
+                    confirmPassword: '',
+                });
             } else {
                 throw new Error(data.message || 'Error al crear el administrador');
             }

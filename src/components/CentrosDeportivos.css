@@ -1,0 +1,205 @@
+.centro-deportivo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.new-centro-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--light-green);
+    border-radius: 20px;
+    min-height: 250px;
+    min-width: 400px;
+    padding: 30px;
+    margin: 0px 25px 0px 0px;
+    box-shadow: 0 4px 8px var(--dark-green), /* Sombra más difuminada */ 0 4px 8px var(--dark-green); /* Sombra más cercana */
+}
+
+.centro-table-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--light-green);
+    border-radius: 20px;
+    min-height: 250px;
+    min-width: 400px;
+    padding: 30px;
+    box-shadow: 0 4px 8px var(--dark-green), /* Sombra más difuminada */ 0 4px 8px var(--dark-green); /* Sombra más cercana */
+}
+
+.form-frame {
+    display: flex;
+    border-radius: 4px;
+    justify-content: center;
+    align-items: center;
+    margin: 3px 0px 3px 0px;
+    padding: 1px;
+    background-color: var(--light-green);
+    border: 0px solid var(--light-green);
+    width: 350px;
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 40px;
+    background: white;
+    border: 1px solid black;
+    border-radius: 6px;
+    z-index: 10; /* Asegúrate de que el modal está por encima de otros elementos */
+}
+
+.input-user {
+    padding: 15px;
+    margin: 5px;
+    border: 0px solid var(--light-green);
+    border-radius: 4px; /* Ajusta el radio del borde para que coincida con el diseño */
+    outline-color: var(--dark-green); /* Cambia el color del borde de foco a verde */
+    box-shadow: 0 0 5px var(--light-green);
+    width: 90%;
+}
+
+.input-user:focus {
+    border-color: var(--dark-green); /* Cambia el color del borde al enfocar */
+    box-shadow: 0 0 8px var(--dark-green); /* Aumenta el sombreado al enfocar */
+}
+
+.danger-button:hover {
+    background-color: red;
+    color: white;
+    border-color: red;
+}
+
+/* Estilos generales para el modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 2px solid var(--light-green);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.5s;
+}
+
+/* Animación para el fading del modal */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Animación para el fading del contenido del modal */
+@keyframes fadeContent {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-content {
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    animation: fadeContent 0.5s;
+}
+
+.close-button {
+    float: right;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-button:hover {
+    color: red;
+}
+
+/* CSS para la tabla */
+
+.centros-table {
+    width: 90%; /* Ajusta al 90% del ancho de la ventana */
+    margin: 50px auto 0 auto; /* 50px arriba y centrado horizontalmente */
+    border-collapse: collapse; /* Elimina los espacios entre las celdas */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* Sombra ligera para la tabla */
+    color: black;
+}
+
+.centros-table-head {
+    color: white;
+}
+
+.centros-table th {
+    background-color: #0f8e77;
+    padding: 10px 25px; /* Espacio interno para celdas */
+    border: 1px solid #ddd; /* Borde de las celdas */
+    text-align: center; /* Alineación del texto */
+    color: white; /* Color del texto de la cabecera */
+    font-weight: bold; /* Fuente en negrita para la cabecera */
+    border-bottom: 2px solid var(--light-green);
+}
+
+.centros-table td {
+    padding: 0px 5px; /* Espacio interno para celdas */
+    border: 1px solid #ddd; /* Borde de las celdas */
+    text-align: left; /* Alineación del texto */
+}
+
+.centros-table tr:nth-child(odd) {
+    background-color: #f2f2f2; /* Color de fondo para las filas impares */
+}
+
+.centros-table tr:hover {
+    background-color: #e7f4f1; /* Color de fondo al pasar el ratón sobre las filas */
+}
+
+.centros-table td {
+    position: relative; /* Posicionamiento relativo para la posición de los botones */
+}
+
+.centros-table button {
+    background-color: #5cf4c3; /* Fondo de los botones con el color turquesa */
+    color: black; /* Color del texto en los botones */
+    border: none; /* Sin borde */
+    padding: 10px 20px; /* Relleno alrededor del texto */
+    margin: 2px; /* Espacio alrededor del botón */
+    border-radius: 5px; /* Esquinas redondeadas */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    transition: background-color 0.3s; /* Transición suave para el color de fondo */
+}
+
+.centros-table button:hover {
+    background-color: red; /* Cambio de color al pasar el ratón por encima */
+    color: white;
+}
+
+/* Ajustes responsivos para que la tabla se vea bien en dispositivos móviles */
+@media (max-width: 768px) {
+    .reservas-table {
+        width: 100%; /* La tabla ocupa todo el ancho en móviles */
+        margin-top: 20px; /* Menos margen en la parte superior */
+    }
+
+    .reservas-table th,
+    .reservas-table td {
+        padding: 10px; /* Menos relleno para ahorrar espacio */
+    }
+}
