@@ -1,6 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import './MiPerfil.css';
 
+type CentroDeportivo = {
+    centroId: string;
+    nombre: string;
+};
+
+type FormData = {
+    nombre: string;
+    apellidos: string;
+    direccion: string;
+    telefono: string;
+    email: string;
+    centroId: string;
+};
+
 const MiPerfil = () => {
     const [formData, setFormData] = useState({
         nombre: '',
@@ -8,23 +22,45 @@ const MiPerfil = () => {
         direccion: '',
         telefono: '',
         email: '',
+        centroId: '',
     });
+
+    const [centrosDeportivos, setCentrosDeportivos] = useState<FormData>([]);
+
+    const loadCentrosDeportivos = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/centros-deportivos');
+            const data: CentroDeportivo[] = await response.json();
+            if (response.ok) {
+                setCentrosDeportivos(data);
+            } else {
+                throw new Error(data[0]?.nombre || 'Error al cargar los centros deportivos');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
 
     const loadUserData = async () => {
         const userId = JSON.parse(localStorage.getItem('user') || '{}').userId;
-        if (!userId) return; // Si no hay userId, no hacemos la petición
+        if (!userId) return;
 
         try {
             const response = await fetch(`http://localhost:3000/usuarios/${userId}`);
-            const data = await response.json();
+            const userData: FormData = await response.json();
             if (response.ok) {
+                const centroDeportivoFound =
+                    centrosDeportivos.find((cd) => cd.centroId === userData.centroId)?.nombre || '';
                 setFormData({
-                    ...data,
-                    password: '', // Asegúrate de no exponer contraseñas, incluso si el backend no las envía
-                    confirmPassword: '',
+                    nombre: userData.nombre,
+                    apellidos: userData.apellidos,
+                    direccion: userData.direccion,
+                    telefono: userData.telefono,
+                    email: userData.email,
+                    centroDeportivoFound,
                 });
             } else {
-                throw new Error(data.message || 'Error al cargar los datos del usuario');
+                throw new Error(userData.email || 'Error al cargar los datos del usuario');
             }
         } catch (error) {
             console.error('Error al cargar los datos del usuario:', error);
@@ -32,8 +68,14 @@ const MiPerfil = () => {
     };
 
     useEffect(() => {
-        loadUserData();
+        loadCentrosDeportivos();
     }, []);
+
+    useEffect(() => {
+        if (centrosDeportivos.length > 0) {
+            loadUserData();
+        }
+    }, [centrosDeportivos]);
 
     // Función para actualizar el estado con los cambios del formulario a la vez que lo estamos modificando
     const handleChange = (e) => {
@@ -87,6 +129,9 @@ const MiPerfil = () => {
             <div className="mi-perfil-container">
                 <form className="mi-perfil-form" onSubmit={(e) => e.preventDefault()}>
                     <h1 className="title">Edita tu perfil</h1>
+                    <div className="form-frame-centro">
+                        <label>Centro Deportivo: {formData.centroDeportivoFound}</label>
+                    </div>
                     <div className="form-frame">
                         <input
                             className="input-user"
@@ -142,6 +187,7 @@ const MiPerfil = () => {
                             required
                         />
                     </div>
+
                     <div className="form-frame">
                         <input
                             className="input-user"

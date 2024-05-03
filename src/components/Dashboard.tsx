@@ -11,9 +11,8 @@ import CentrosDeportivos from './CentrosDeportivos';
 import Instalaciones from './Instalaciones';
 
 const Dashboard = () => {
-    // Obtener la información del usuario desde el localStorage
     const userInfo = JSON.parse(localStorage.getItem('user') || '{}');
-    const tipo_usuario = userInfo.tipoUsuario; //#TODO Reemplazar con la lógica de obtención real de este dato
+    const tipo_usuario = userInfo.tipoUsuario;
 
     return (
         <div className="dashboard-container">

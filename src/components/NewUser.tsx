@@ -123,22 +123,20 @@ const NewUser: React.FC = () => {
                     />
                 </div>
                 <div className="form-frame">
-                    <div className="form-frame">
-                        <select
-                            className="input-user"
-                            name="centroId"
-                            value={formData.centroId}
-                            onChange={handleChange}
-                            required
-                        >
-                            <option value="">Selecciona un centro deportivo</option>
-                            {centrosDeportivos.map((centro) => (
-                                <option key={centro.centroId} value={centro.centroId}>
-                                    {centro.nombre}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+                    <select
+                        className="input-user"
+                        name="centroId"
+                        value={formData.centroId}
+                        onChange={handleChange}
+                        required
+                    >
+                        <option value="">Selecciona un centro deportivo</option>
+                        {centrosDeportivos.map((centro) => (
+                            <option key={centro.centroId} value={centro.centroId}>
+                                {centro.nombre}
+                            </option>
+                        ))}
+                    </select>
                 </div>
                 <div className="form-frame">
                     <input

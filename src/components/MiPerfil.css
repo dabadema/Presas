@@ -31,6 +31,21 @@
     width: 350px;
 }
 
+.form-frame-centro {
+    display: flex;
+    border-radius: 4px;
+    justify-content: center;
+    align-items: center;
+    margin: 3px 30px 30px 30px;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 8px 8px 8px 8px;
+    background-color: white;
+    border: 5px solid var(--light-green);
+
+    width: 350px;
+}
+
 .modal {
     position: fixed;
     top: 50%;
@@ -40,22 +55,22 @@
     background: white;
     border: 1px solid black;
     border-radius: 6px;
-    z-index: 10; /* Asegúrate de que el modal está por encima de otros elementos */
+    z-index: 10;
 }
 
 .input-user {
     padding: 15px;
     margin: 5px;
     border: 0px solid var(--light-green);
-    border-radius: 4px; /* Ajusta el radio del borde para que coincida con el diseño */
-    outline-color: var(--dark-green); /* Cambia el color del borde de foco a verde */
+    border-radius: 4px;
+    outline-color: var(--dark-green);
     box-shadow: 0 0 5px var(--light-green);
     width: 90%;
 }
 
 .input-user:focus {
-    border-color: var(--dark-green); /* Cambia el color del borde al enfocar */
-    box-shadow: 0 0 8px var(--dark-green); /* Aumenta el sombreado al enfocar */
+    border-color: var(--dark-green);
+    box-shadow: 0 0 8px var(--dark-green);
 }
 
 .title {
