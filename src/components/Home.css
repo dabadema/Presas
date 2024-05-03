@@ -15,8 +15,20 @@
 }
 
 .username {
+    position: relative;
     color: orange;
-    text-decoration: underline black;
+    font-size: 70px;
+}
+
+.username::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -5px;
+    height: 6px;
+    border-radius: 10px;
+    background-color: black;
 }
 
 .centro-deportivo {
