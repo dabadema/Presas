@@ -9,9 +9,10 @@ import './Dashboard.css';
 import AdminComp from './AdminComp';
 import CentrosDeportivos from './CentrosDeportivos';
 import Instalaciones from './Instalaciones';
+import Home from './Home';
 
 const Dashboard = () => {
-    const userInfo = JSON.parse(localStorage.getItem('user') || '{}');
+    const userInfo = JSON.parse(localStorage.getItem('userData') || '{}');
     const tipo_usuario = userInfo.tipoUsuario;
 
     return (
@@ -19,6 +20,7 @@ const Dashboard = () => {
             <NavBar tipo_usuario={tipo_usuario} />
             <div className="dashboard-content">
                 <Routes>
+                    <Route path="home" element={<Home />} />
                     <Route path="mi-perfil" element={<MiPerfil />} />
                     {tipo_usuario === 'superadministrador' && (
                         <Route path="administradores" element={<AdminComp />} />

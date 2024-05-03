@@ -42,7 +42,7 @@ const MiPerfil = () => {
     };
 
     const loadUserData = async () => {
-        const userId = JSON.parse(localStorage.getItem('user') || '{}').userId;
+        const userId = JSON.parse(localStorage.getItem('userData') || '{}').userId;
         if (!userId) return;
 
         try {

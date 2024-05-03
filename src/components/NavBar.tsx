@@ -16,6 +16,14 @@ const NavBar = ({ tipo_usuario }) => {
             <ul>
                 <li>
                     <NavLink
+                        to="/dashboard/home"
+                        className={({ isActive }) => (isActive ? 'active' : '')}
+                    >
+                        Home
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink
                         to="/dashboard/mi-perfil"
                         className={({ isActive }) => (isActive ? 'active' : '')}
                     >

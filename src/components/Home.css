@@ -1,0 +1,26 @@
+#root {
+    --dark-green: #0f8e77;
+    --light-green: #5cf4c3;
+    --orange: #f4a049;
+}
+
+.home-container {
+    padding: 20px;
+    margin: 20px;
+    background-color: #f0f0f0;
+
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.username {
+    color: orange;
+    text-decoration: underline black;
+}
+
+.centro-deportivo {
+    color: var(--dark-green);
+    font-size: 50px;
+    font-weight: bold;
+}

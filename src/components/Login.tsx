@@ -26,16 +26,20 @@ const Login: React.FC<LoginFormProps> = ({ onLogin }) => {
             const data = await response.json();
             if (response.ok) {
                 console.log('Login successful:', data);
-                // Lógica después de un login exitoso #TODO pendiente de instaurar las contraseñas hasheadas
+
+                // #TODO pendiente de instaurar las contraseñas hasheadas
+
                 localStorage.setItem(
-                    'user',
+                    'userData',
                     JSON.stringify({
                         tipoUsuario: data.tipoUsuario,
                         userId: data.userId,
+                        nombre: data.nombre,
                         email: data.email,
+                        centroId: data.centroId,
                     })
                 );
-                navigate('/dashboard/mi-perfil');
+                navigate('/dashboard/home');
             } else {
                 throw new Error(data.message || 'Usuario o contraseña incorrectos');
             }
