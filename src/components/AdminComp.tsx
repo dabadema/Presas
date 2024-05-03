@@ -1,12 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import './AdminComp.css';
 
+type AdminFormData = {
+    nombre: string;
+    apellidos: string;
+    direccion: string;
+    centroId: string;
+    telefono: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+};
+
+type Admin = {
+    nombre: string;
+    apellidos: string;
+    direccion: string;
+    centroId: string;
+    telefono: string;
+    email: string;
+    userId: string;
+};
+
 const AdminComp: React.FC = () => {
     const [adminData, setAdminData] = useState<AdminFormData>({
         nombre: '',
         apellidos: '',
         direccion: '',
-        centro_deportivo: '', // TODO Pendiente ver como puedo traerme el valor del centro_deportivo a ahí
+        centroId: '',
         telefono: '',
         email: '',
         password: '',
@@ -14,6 +35,9 @@ const AdminComp: React.FC = () => {
     });
 
     const [administradores, setAdministradores] = useState<Admin[]>([]);
+    const [centrosDeportivos, setCentrosDeportivos] = useState([]);
+    const [centrosMap, setCentrosMap] = useState<Map<string, string>>(new Map());
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         const fetchAdministradores = async () => {
@@ -31,11 +55,28 @@ const AdminComp: React.FC = () => {
         };
 
         fetchAdministradores();
+
+        const fetchCentrosDeportivos = async () => {
+            try {
+                const response = await fetch('http://localhost:3000/centros-deportivos');
+                const data = await response.json();
+                if (response.ok) {
+                    setCentrosDeportivos(data);
+                    const map = new Map();
+                    data.forEach((centro: any) => map.set(centro.centroId, centro.nombre));
+                    setCentrosMap(map);
+                } else {
+                    throw new Error(data.message || 'Error al cargar los centros deportivos');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+
+        fetchCentrosDeportivos();
     }, []);
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = event.target;
         setAdminData((prevState) => ({ ...prevState, [name]: value }));
     };
@@ -102,7 +143,7 @@ const AdminComp: React.FC = () => {
             nombre: '',
             apellidos: '',
             direccion: '',
-            centro_deportivo: '',
+            centroId: '',
             telefono: '',
             email: '',
             password: '',
@@ -151,17 +192,6 @@ const AdminComp: React.FC = () => {
                         <input
                             className="input-user"
                             type="text"
-                            name="centro_deportivo"
-                            value={adminData.centro_deportivo}
-                            onChange={handleChange}
-                            placeholder="Centro Deportivo"
-                            required
-                        />
-                    </div>
-                    <div className="form-frame">
-                        <input
-                            className="input-user"
-                            type="text"
                             name="direccion"
                             value={adminData.direccion}
                             onChange={handleChange}
@@ -180,6 +210,24 @@ const AdminComp: React.FC = () => {
                             required
                         />
                     </div>
+
+                    <div className="form-frame">
+                        <select
+                            className="input-user"
+                            name="centroId"
+                            value={adminData.centroId}
+                            onChange={handleChange}
+                            required
+                        >
+                            <option value="">Selecciona un centro deportivo</option>
+                            {centrosDeportivos.map((centro) => (
+                                <option key={centro.centroId} value={centro.centroId}>
+                                    {centro.nombre}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
                     <div className="form-frame">
                         <input
                             className="input-user"
@@ -229,8 +277,8 @@ const AdminComp: React.FC = () => {
                             <th>Nombre</th>
                             <th>Apellidos</th>
                             <th>Dirección</th>
-                            <th>Centro Deportivo</th>
                             <th>Teléfono</th>
+                            <th>Centro Deportivo</th>
                             <th>Email</th>
                             <th>Acción</th>
                         </tr>
@@ -241,8 +289,8 @@ const AdminComp: React.FC = () => {
                                 <td>{admin.nombre}</td>
                                 <td>{admin.apellidos}</td>
                                 <td>{admin.direccion}</td>
-                                <td>{admin.centroDeportivo}</td>
                                 <td>{admin.telefono}</td>
+                                <td>{centrosMap.get(admin.centroId) || 'Centro no encontrado'}</td>
                                 <td>{admin.email}</td>
                                 <td>
                                     <button onClick={() => handleDelete(admin)}>Eliminar</button>
