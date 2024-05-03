@@ -6,7 +6,7 @@ import Membresias from './Membresias';
 import Consultas from './Consultas';
 import NavBar from './NavBar';
 import './Dashboard.css';
-import AdminComp from './Administradores';
+import AdminComp from './AdminComp';
 import CentrosDeportivos from './CentrosDeportivos';
 import Instalaciones from './Instalaciones';
 

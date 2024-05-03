@@ -39,17 +39,17 @@
     background: white;
     border: 1px solid black;
     border-radius: 6px;
-    z-index: 10; /* Asegúrate de que el modal está por encima de otros elementos */
+    z-index: 10;
 }
 
 .input-user {
     padding: 15px;
-    margin: 5px;
+    margin: 4px;
     border: 0px solid var(--light-green);
-    border-radius: 4px; /* Ajusta el radio del borde para que coincida con el diseño */
-    outline-color: var(--dark-green); /* Cambia el color del borde de foco a verde */
+    border-radius: 4px;
+    /outline-color: var(--dark-green); /* Cambia el color del borde de foco a verde */
     box-shadow: 0 0 5px var(--light-green);
-    width: 90%;
+    width: 100%;
 }
 
 .input-user:focus {
@@ -66,4 +66,8 @@
     background-color: red;
     color: white;
     border-color: red;
+}
+
+.select-standard {
+    color: red;
 }

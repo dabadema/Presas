@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './NewUser.css';
 
@@ -12,17 +12,28 @@ const NewUser: React.FC = () => {
         password: '',
         confirmPassword: '',
         tipoUsuario: 'usuario', // En este caso siempre va a ser del tipo "usuario"
+        centroId: '',
     });
+
+    const [centrosDeportivos, setCentrosDeportivos] = useState([]);
     // const [isModalOpen, setIsModalOpen] = useState(false);  Modales pendientes de implementar
     const navigate = useNavigate();
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    useEffect(() => {
+        fetch('http://localhost:3000/centros-deportivos')
+            .then((response) => response.json())
+            .then((data) => setCentrosDeportivos(data))
+            .catch((error) => console.error('Error fetching centros deportivos:', error));
+    }, []);
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         event.preventDefault();
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
     };
 
     const handleSubmit = async (event: React.FormEvent) => {
+        console.log('formulario', JSON.stringify(formData));
         event.preventDefault();
         if (formData.password !== formData.confirmPassword) {
             alert('Las contraseñas no coinciden.');
@@ -43,6 +54,7 @@ const NewUser: React.FC = () => {
                     email: formData.email,
                     password: formData.password,
                     tipoUsuario: formData.tipoUsuario,
+                    centroId: formData.centroId,
                 }),
             });
 
@@ -109,6 +121,24 @@ const NewUser: React.FC = () => {
                         placeholder="Teléfono"
                         required
                     />
+                </div>
+                <div className="form-frame">
+                    <div className="form-frame">
+                        <select
+                            className="input-user"
+                            name="centroId"
+                            value={formData.centroId}
+                            onChange={handleChange}
+                            required
+                        >
+                            <option value="">Selecciona un centro deportivo</option>
+                            {centrosDeportivos.map((centro) => (
+                                <option key={centro.centroId} value={centro.centroId}>
+                                    {centro.nombre}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
                 <div className="form-frame">
                     <input

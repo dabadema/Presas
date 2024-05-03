@@ -1,108 +1,128 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './Administradores.css';
+import React, { useEffect, useState } from 'react';
+import './AdminComp.css';
 
 const AdminComp: React.FC = () => {
     const [adminData, setAdminData] = useState<AdminFormData>({
         nombre: '',
         apellidos: '',
         direccion: '',
-        centro_deportivo: '',
+        centro_deportivo: '', // TODO Pendiente ver como puedo traerme el valor del centro_deportivo a ahí
         telefono: '',
         email: '',
         password: '',
         confirmPassword: '',
     });
 
-    const [administradores, setAdministradores] = useState<Admin[]>(
-        [
-            {
-                nombre: 'Laura',
-                apellidos: 'Martínez',
-                direccion: 'Calle Falsa 123',
-                email: 'laura@example.com',
-                centroDeportivo: 'Centro Deportivo Norte',
-                telefono: '655640850',
-            },
-            {
-                nombre: 'Carlos',
-                apellidos: 'González',
-                direccion: 'Avenida Principal 456',
-                email: 'carlos@example.com',
-                centroDeportivo: 'Centro Deportivo Sur',
-                telefono: '655640850',
-            },
-            {
-                nombre: 'Ana',
-                apellidos: 'López',
-                direccion: 'Calle Secundaria 789',
-                email: 'ana@example.com',
-                centroDeportivo: 'Centro Deportivo Este',
-                telefono: '655640850',
-            },
-        ]
-        // Datos iniciales, que eventualmente vendrán de la base de datos
-    );
+    const [administradores, setAdministradores] = useState<Admin[]>([]);
+
+    useEffect(() => {
+        const fetchAdministradores = async () => {
+            try {
+                const response = await fetch('http://localhost:3000/usuarios/administradores');
+                const data = await response.json();
+                if (response.ok) {
+                    setAdministradores(data);
+                } else {
+                    throw new Error(data.message || 'Error al cargar los administradores');
+                }
+            } catch (error) {
+                alert('Error al cargar los administradores: ' + error.message);
+            }
+        };
+
+        fetchAdministradores();
+    }, []);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const [originalData] = useState({
-        ...adminData,
-    });
-
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
-        setAdminData({ ...adminData, [name]: value });
+        setAdminData((prevState) => ({ ...prevState, [name]: value }));
     };
 
-    const handleSubmit = (event: React.FormEvent) => {
-        event.preventDefault();
-        if (adminData.password !== adminData.confirmPassword) {
-            alert('Las contraseñas no coinciden.');
-            return;
-        }
-        // Aquí deberías enviar los datos a tu API o servidor para crear el usuario
-        // Simulamos el éxito mostrando el modal
-        setIsModalOpen(true);
-        // Luego de un tiempo o al cerrar el modal, redirigimos al login
-        setTimeout(() => {
-            setIsModalOpen(false);
-        }, 3000); // 3 segundos para mostrar el modal antes de redirigir
-    };
-
-    const handleCreate = (e: React.FormEvent) => {
+    const handleCreate = async (e: React.FormEvent) => {
         e.preventDefault();
         if (adminData.password !== adminData.confirmPassword) {
             alert('Las contraseñas no coinciden.');
             return;
         }
-        // Aquí iría la lógica para enviar los datos a la API y actualizar el estado
-        console.log('Crear administrador:', adminData);
-        // Simulamos el éxito mostrando el modal
-        setIsModalOpen(true);
-        // Luego de un tiempo o al cerrar el modal, redirigimos al login
-        setTimeout(() => {
-            setIsModalOpen(false);
-        }, 3000); // 3 segundos para mostrar el modal antes de redirigir
-        // Suponiendo que la API devuelve el nuevo administrador con los datos correctos:
-        // setAdministradores([...administradores, { ...respuestaAPI }]);
+
+        try {
+            const response = await fetch('http://localhost:3000/usuarios', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ ...adminData, tipoUsuario: 'administrador' }),
+            });
+            const data = await response.json();
+            if (response.ok) {
+                setAdministradores([...administradores, data]);
+                setIsModalOpen(true);
+                setTimeout(() => setIsModalOpen(false), 3000);
+            } else {
+                throw new Error(data.message || 'Error al crear el administrador');
+            }
+        } catch (error) {
+            alert('Error al crear el administrador: ' + error.message);
+        }
     };
 
-    const handleDelete = (index: number) => {
-        // Lógica para eliminar el administrador usando el índice
-        console.log('Eliminar administrador:', administradores[index]);
-        // Eliminar de la lista después de una confirmación exitosa de la API
-        // setAdministradores(administradores.filter((_, i) => i !== index));
+    const handleDelete = async (admin: any) => {
+        const confirmDelete = window.confirm(
+            `¿Estás seguro de que deseas eliminar al administrador "${admin.nombre}"?`
+        );
+        if (!confirmDelete) return;
+
+        try {
+            const response = await fetch(`http://localhost:3000/usuarios/${admin.userId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                const data = await response.json();
+                throw new Error(data.message || 'Error al eliminar el administrador');
+            }
+
+            setAdministradores((prevAdministradores) =>
+                prevAdministradores.filter((a) => a.userId !== admin.userId)
+            );
+            alert(`Administrador ${admin.nombre} eliminado con éxito.`);
+        } catch (error) {
+            console.log('Error al eliminar el administrador:', error);
+            alert('Error al eliminar el administrador: ' + error.message);
+        }
     };
 
     const handleCancel = () => {
-        setAdminData(originalData);
+        setAdminData({
+            nombre: '',
+            apellidos: '',
+            direccion: '',
+            centro_deportivo: '',
+            telefono: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+        });
     };
 
     return (
         <div className="admin-management-container">
+            {isModalOpen && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <span className="close-button" onClick={() => setIsModalOpen(false)}>
+                            &times;
+                        </span>
+                        <p>Administrador creado con éxito.</p>
+                    </div>
+                </div>
+            )}
             <div className="admin-form-container">
-                {isModalOpen && <div className="modal">Usuario creado con éxito.</div>}
                 <form className="new-admin-form" onSubmit={handleCreate}>
                     <h2>Crear nuevo administrador</h2>
                     <div className="form-frame">
@@ -225,7 +245,7 @@ const AdminComp: React.FC = () => {
                                 <td>{admin.telefono}</td>
                                 <td>{admin.email}</td>
                                 <td>
-                                    <button onClick={() => handleDelete(index)}>Eliminar</button>
+                                    <button onClick={() => handleDelete(admin)}>Eliminar</button>
                                 </td>
                             </tr>
                         ))}

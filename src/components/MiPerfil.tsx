@@ -1,38 +1,85 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './MiPerfil.css';
 
 const MiPerfil = () => {
-    // Estado para manejar los datos del formulario con valores iniciales #TODO pendiente de conectar con BBDD
     const [formData, setFormData] = useState({
-        nombre: 'Juan',
-        apellidos: 'Pérez',
-        direccion: 'Calle Falsa 123',
-        telefono: '655240850',
-        email: 'juan.perez@example.com',
-        // Agrega aquí más campos si es necesario
+        nombre: '',
+        apellidos: '',
+        direccion: '',
+        telefono: '',
+        email: '',
     });
 
-    // Estado para manejar los datos originales del usuario
-    const [originalData] = useState({
-        ...formData,
-    });
+    const loadUserData = async () => {
+        const userId = JSON.parse(localStorage.getItem('user') || '{}').userId;
+        if (!userId) return; // Si no hay userId, no hacemos la petición
 
-    // Función para actualizar el estado con los cambios del formulario
+        try {
+            const response = await fetch(`http://localhost:3000/usuarios/${userId}`);
+            const data = await response.json();
+            if (response.ok) {
+                setFormData({
+                    ...data,
+                    password: '', // Asegúrate de no exponer contraseñas, incluso si el backend no las envía
+                    confirmPassword: '',
+                });
+            } else {
+                throw new Error(data.message || 'Error al cargar los datos del usuario');
+            }
+        } catch (error) {
+            console.error('Error al cargar los datos del usuario:', error);
+        }
+    };
+
+    useEffect(() => {
+        loadUserData();
+    }, []);
+
+    // Función para actualizar el estado con los cambios del formulario a la vez que lo estamos modificando
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData((formData) => ({ ...formData, [name]: value }));
+        setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
     // Función para guardar los cambios
-    const handleSave = () => {
-        // Aquí implementarías la lógica para guardar los datos en la base de datos
-        console.log('Datos guardados:', formData);
-        // Por ejemplo: axios.post('/api/usuario/actualizar', formData)
+    const handleSave = async () => {
+        const userId = JSON.parse(localStorage.getItem('user') || '{}').userId;
+        if (!userId) {
+            console.error('No user ID found, unable to save.');
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:3000/usuarios/${userId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    nombre: formData.nombre,
+                    apellidos: formData.apellidos,
+                    direccion: formData.direccion,
+                    telefono: formData.telefono,
+                    email: formData.email,
+                }),
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                console.log('Actualización exitosa:', data);
+                alert('Perfil actualizado correctamente!');
+            } else {
+                throw new Error(data.message || 'Error al actualizar el perfil');
+            }
+        } catch (error: any) {
+            console.error('Error al actualizar los datos del usuario:', error);
+            alert('Error al actualizar el perfil: ' + error.message);
+        }
     };
 
     // Función para cancelar los cambios y restablecer los datos originales
     const handleCancel = () => {
-        setFormData(originalData);
+        loadUserData();
     };
 
     return (
@@ -106,6 +153,8 @@ const MiPerfil = () => {
                             required
                         />
                     </div>
+                    {/* TODO Hacer que compruebe por que la contraseña que introduce realmente es la
+                    actual */}
                     <div className="form-frame">
                         <input
                             className="input-user"
