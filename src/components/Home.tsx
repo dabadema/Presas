@@ -27,7 +27,6 @@ const Home = () => {
             const userData = JSON.parse(storedData);
             console.log('Datos parseados de localStorage:', userData);
 
-            // Asumiendo que 'nombre' y 'tipoUsuario' están en el objeto almacenado
             setUserInfo({
                 nombre: userData.nombre,
                 tipoUsuario: userData.tipoUsuario,
