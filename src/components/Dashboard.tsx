@@ -28,10 +28,9 @@ const Dashboard = () => {
                     {tipo_usuario === 'superadministrador' && (
                         <Route path="centros-deportivos" element={<CentrosDeportivos />} />
                     )}
-                    {(tipo_usuario === 'administrador' ||
-                        tipo_usuario === 'superadministrador') && (
-                        <Route path="instalaciones" element={<Instalaciones />} />
-                    )}
+
+                    <Route path="instalaciones" element={<Instalaciones />} />
+
                     <Route path="reservas" element={<Reservas />} />
                     <Route path="membresias" element={<Membresias />} />
                     <Route path="consultas" element={<Consultas />} />

@@ -5,6 +5,7 @@ type Instalacion = {
     nombre: string;
     descripcion: string;
     centroId: string;
+    instalacionId: string;
 };
 
 type CentroDeportivo = {
@@ -21,8 +22,16 @@ const Instalaciones: React.FC = () => {
     const [instalaciones, setInstalaciones] = useState<Instalacion[]>([]);
     const [centroDeportivo, setCentroDeportivo] = useState<CentroDeportivo | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [tipoUsuario, setTipoUsuario] = useState('');
 
     useEffect(() => {
+        const userDataString = localStorage.getItem('userData');
+        if (userDataString) {
+            const userData = JSON.parse(userDataString);
+            setTipoUsuario(userData.tipoUsuario);
+            console.log('usuario logueado', userData.tipoUsuario);
+        }
+
         const fetchCentroDeportivo = async () => {
             const userDataString = localStorage.getItem('userData');
             if (userDataString) {
@@ -97,7 +106,7 @@ const Instalaciones: React.FC = () => {
                 setTimeout(() => setIsModalOpen(false), 3000);
                 setInstalacionData({
                     nombre: '',
-                    descripcion: '', // Asegúrate de resetear todos los campos relevantes
+                    descripcion: '',
                     centroId: '',
                 });
             } else {
@@ -145,41 +154,41 @@ const Instalaciones: React.FC = () => {
                     </div>
                 </div>
             )}
-            <div className="form-container-instalacion">
-                <form className="new-instalacion-form" onSubmit={handleCreate}>
-                    <h2>Crear Instalación</h2>
-                    {/* Form fields here */}
-                    <div className="form-frame">
-                        <input
-                            className="input-user"
-                            type="text"
-                            name="nombre"
-                            value={instalacionData.nombre}
-                            onChange={handleChange}
-                            placeholder="Nombre"
-                            required
-                        />
-                    </div>
-                    <div className="form-frame">
-                        <input
-                            className="input-user"
-                            type="text"
-                            name="descripcion"
-                            value={instalacionData.descripcion}
-                            onChange={handleChange}
-                            placeholder="Dirección"
-                            required
-                        />
-                    </div>
-
-                    <div className="form-actions">
-                        <button type="submit">Crear Instalación</button>
-                        <button className="danger-button" type="button" onClick={handleCancel}>
-                            Cancelar
-                        </button>
-                    </div>
-                </form>
-            </div>
+            {tipoUsuario === 'administrador' && (
+                <div className="form-container-instalacion">
+                    <form className="new-instalacion-form" onSubmit={handleCreate}>
+                        <h2>Crear Instalación</h2>
+                        <div className="form-frame">
+                            <input
+                                className="input-user"
+                                type="text"
+                                name="nombre"
+                                value={instalacionData.nombre}
+                                onChange={handleChange}
+                                placeholder="Nombre"
+                                required
+                            />
+                        </div>
+                        <div className="form-frame">
+                            <input
+                                className="input-user"
+                                type="text"
+                                name="descripcion"
+                                value={instalacionData.descripcion}
+                                onChange={handleChange}
+                                placeholder="Dirección"
+                                required
+                            />
+                        </div>
+                        <div className="form-actions">
+                            <button type="submit">Crear Instalación</button>
+                            <button className="danger-button" type="button" onClick={handleCancel}>
+                                Cancelar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            )}
             <div className="instalacion-table-container">
                 <h2>
                     Instalaciones Existentes{centroDeportivo ? ` en ${centroDeportivo.nombre}` : ''}
@@ -189,7 +198,7 @@ const Instalaciones: React.FC = () => {
                         <tr>
                             <th>Nombre</th>
                             <th>Descripción</th>
-                            <th>Acciones</th>
+                            {tipoUsuario === 'administrador' && <th>Acciones</th>}
                         </tr>
                     </thead>
                     <tbody>
@@ -197,14 +206,16 @@ const Instalaciones: React.FC = () => {
                             <tr key={instalacion.instalacionId}>
                                 <td>{instalacion.nombre}</td>
                                 <td>{instalacion.descripcion}</td>
-                                <td>
-                                    <button
-                                        className="danger-button"
-                                        onClick={() => handleDelete(instalacion.instalacionId)}
-                                    >
-                                        Eliminar
-                                    </button>
-                                </td>
+                                {tipoUsuario === 'administrador' && (
+                                    <td>
+                                        <button
+                                            className="danger-button"
+                                            onClick={() => handleDelete(instalacion.instalacionId)}
+                                        >
+                                            Eliminar
+                                        </button>
+                                    </td>
+                                )}
                             </tr>
                         ))}
                     </tbody>

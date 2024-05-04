@@ -136,10 +136,10 @@
 /* CSS para la tabla */
 
 .instalaciones-table {
-    width: 90%; /* Ajusta al 90% del ancho de la ventana */
-    margin: 10px auto 0 auto; /* 50px arriba y centrado horizontalmente */
-    border-collapse: collapse; /* Elimina los espacios entre las celdas */
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* Sombra ligera para la tabla */
+    width: 90%;
+    margin: 10px auto 0 auto;
+    border-collapse: collapse;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     color: black;
 }
 
@@ -149,22 +149,23 @@
 
 .instalaciones-table th {
     background-color: #0f8e77;
-    padding: 0px 35px; /* Espacio interno para celdas */
-    border: 1px solid #ddd; /* Borde de las celdas */
-    text-align: center; /* Alineación del texto */
-    color: white; /* Color del texto de la cabecera */
-    font-weight: bold; /* Fuente en negrita para la cabecera */
+    padding: 8px 35px;
+    border: 1px solid #ddd;
+    text-align: center;
+    color: white;
+    font-weight: bold;
     border-bottom: 2px solid var(--light-green);
 }
 
 .instalaciones-table td {
-    padding: 0px 25px; /* Espacio interno para celdas */
-    border: 1px solid #ddd; /* Borde de las celdas */
-    text-align: center; /* Alineación del texto */
+    padding: 0px 25px;
+    border: 1px solid #ddd;
+    text-align: center;
+    justify-content: center;
 }
 
 .instalaciones-table tr:nth-child(odd) {
-    background-color: #f2f2f2; /* Color de fondo para las filas impares */
+    background-color: #f2f2f2;
 }
 
 .instalaciones-table tr:hover {

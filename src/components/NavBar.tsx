@@ -52,16 +52,16 @@ const NavBar = ({ tipo_usuario }) => {
                     </>
                 )}
                 {/* Enlaces para Administradores y Superadministradores */}
-                {(tipo_usuario === 'administrador' || tipo_usuario === 'superadministrador') && (
-                    <li>
-                        <NavLink
-                            to="/dashboard/instalaciones"
-                            className={({ isActive }) => (isActive ? 'active' : '')}
-                        >
-                            Instalaciones
-                        </NavLink>
-                    </li>
-                )}
+
+                <li>
+                    <NavLink
+                        to="/dashboard/instalaciones"
+                        className={({ isActive }) => (isActive ? 'active' : '')}
+                    >
+                        Instalaciones
+                    </NavLink>
+                </li>
+
                 <li>
                     <NavLink
                         to="/dashboard/reservas"
