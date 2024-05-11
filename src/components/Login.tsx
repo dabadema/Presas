@@ -6,14 +6,14 @@ type LoginFormProps = {
     onLogin?: (email: string, password: string) => void;
 };
 
-const Login: React.FC<LoginFormProps> = ({ onLogin }) => {
+const Login: React.FC<LoginFormProps> = ({}) => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [showModal, setShowModal] = useState<boolean>(false);
     const navigate = useNavigate();
 
     const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault(); // Esto evita que el formulario se envíe tradicionalmente.
+        event.preventDefault();
         try {
             const response = await fetch('http://localhost:3000/usuarios/login', {
                 method: 'POST',
@@ -26,8 +26,6 @@ const Login: React.FC<LoginFormProps> = ({ onLogin }) => {
             const data = await response.json();
             if (response.ok) {
                 console.log('Login successful:', data);
-
-                // #TODO pendiente de instaurar las contraseñas hasheadas
 
                 localStorage.setItem(
                     'userData',
@@ -72,7 +70,8 @@ const Login: React.FC<LoginFormProps> = ({ onLogin }) => {
                 </div>
             )}
             <form className="login-form" onSubmit={handleLogin}>
-                <h1 className="title"> G.I.D. </h1>
+                <text className="title-login"> FITRONIC </text>
+
                 <div className="form-frame">
                     <input
                         className="input-user"
@@ -81,7 +80,7 @@ const Login: React.FC<LoginFormProps> = ({ onLogin }) => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="Email"
-                        // required
+                        required
                     />
                 </div>
                 <div className="form-frame">
@@ -92,7 +91,7 @@ const Login: React.FC<LoginFormProps> = ({ onLogin }) => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="Contraseña"
-                        // required
+                        required
                     />
                 </div>
                 <button type="submit">Login</button>
@@ -103,7 +102,6 @@ const Login: React.FC<LoginFormProps> = ({ onLogin }) => {
                     <button className="alert-button" type="button" onClick={handleForgotPassword}>
                         Olvidé mi contraseña
                     </button>
-                    {/* Asegúrate de que este botón no envíe el formulario */}
                 </div>
             </form>
         </div>
