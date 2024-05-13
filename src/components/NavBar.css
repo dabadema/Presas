@@ -1,4 +1,9 @@
-/* NavBar.css */
+.navbar {
+    display: flex;
+    flex-direction: column;
+    min-height: 90vh;
+}
+
 .navbar ul {
     list-style: none;
     padding: 0;
@@ -13,24 +18,28 @@
     color: white;
     text-decoration: none;
     padding: 10px;
-    display: block; /* Hace que el enlace sea más fácil de clickear */
+    display: block;
 }
 
 .navbar a.active {
-    font-weight: bold; /* Estilo para el enlace activo */
-    background-color: #4ae0b0; /* Cambio de color para el enlace activo */
+    font-weight: bold;
+    background-color: #4ae0b0;
     border-radius: 12px;
 }
 
 .logout-container {
-    margin-top: auto; /* Empuja el botón de logout hacia la parte inferior */
-    margin-bottom: 20px;
-    padding: 20px; /* Agrega un poco de padding */
+    margin-top: auto;
+    margin-bottom: 50px;
 }
 
 .logout-container button {
-    width: 100%; /* Asegura que el botón ocupe todo el ancho del contenedor */
-    /* ...otros estilos del botón... */
+    width: 100%;
+}
+
+.danger-button {
+    margin: 0px;
+
+    border-radius: 12px;
 }
 
 .danger-button:hover {

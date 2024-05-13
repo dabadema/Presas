@@ -1,23 +1,19 @@
-/* Dashboard.css */
 .dashboard-container {
     display: flex;
     min-height: 100vh;
 }
 
-.navbar {
-    width: 250px; /* Ancho fijo para la barra de navegación */
-    background-color: #0f8e77; /* Un color de fondo, ejemplo verde */
+.sidebar {
+    background-color: #0f8e77;
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    height: 97vh; /* Asegura que se extienda toda la altura */
+    max-height: 100vh;
 }
 
 .dashboard-content {
-    flex-grow: 1; /* Ocupa el espacio restante */
-    background-color: #fff; /* Fondo claro para el contenido */
-    padding: 20px;
-    margin: 20px;
-    overflow-y: auto; /* Permite scroll en el contenido */
+    flex-grow: 1;
+    background-color: #fff;
+    padding: 10px;
 }

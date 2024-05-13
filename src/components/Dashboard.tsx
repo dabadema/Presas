@@ -5,6 +5,7 @@ import Reservas from './Reservas';
 import Membresias from './Membresias';
 import Consultas from './Consultas';
 import NavBar from './NavBar';
+import AvatarDashboard from './AvatarDashboard';
 import './Dashboard.css';
 import AdminComp from './AdminComp';
 import CentrosDeportivos from './CentrosDeportivos';
@@ -14,10 +15,14 @@ import Home from './Home';
 const Dashboard = () => {
     const userInfo = JSON.parse(localStorage.getItem('userData') || '{}');
     const tipo_usuario = userInfo.tipoUsuario;
+    const nombre = userInfo.nombre;
 
     return (
         <div className="dashboard-container">
-            <NavBar tipo_usuario={tipo_usuario} />
+            <div className="sidebar">
+                <AvatarDashboard nombre={nombre} tipoUsuario={tipo_usuario} />
+                <NavBar tipo_usuario={tipo_usuario} />
+            </div>
             <div className="dashboard-content">
                 <Routes>
                     <Route path="home" element={<Home />} />
@@ -28,9 +33,7 @@ const Dashboard = () => {
                     {tipo_usuario === 'superadministrador' && (
                         <Route path="centros-deportivos" element={<CentrosDeportivos />} />
                     )}
-
                     <Route path="instalaciones" element={<Instalaciones />} />
-
                     <Route path="reservas" element={<Reservas />} />
                     <Route path="membresias" element={<Membresias />} />
                     <Route path="consultas" element={<Consultas />} />
