@@ -40,10 +40,10 @@ const Instalaciones: React.FC = () => {
                     `http://localhost:3000/centros-deportivos/${userData.centroId}`
                 );
                 const data = await response.json();
-                console.log('respuesta desde el backend', data);
+                console.log('fetch centros deportivos', data);
                 if (response.ok) {
                     setCentroDeportivo(data[0]);
-                    console.log('valores devueltos', centroDeportivo);
+                    console.log('fetch centros deportivos', centroDeportivo);
                 } else {
                     console.error('Error fetching centro deportivo:', response);
                 }
@@ -53,15 +53,23 @@ const Instalaciones: React.FC = () => {
         fetchCentroDeportivo();
 
         const fetchInstalaciones = async () => {
-            const response = await fetch('http://localhost:3000/instalaciones');
-            const data = await response.json();
-            if (response.ok) {
-                setInstalaciones(data);
-                console.log('tras fecth instalaciones', data);
-            } else {
-                console.error('Error fetching instalaciones:', response);
+            const userDataString = localStorage.getItem('userData');
+            if (userDataString) {
+                const userData = JSON.parse(userDataString);
+                const response = await fetch(
+                    `http://localhost:3000/instalaciones/centro/${userData.centroId}`
+                );
+                const data = await response.json();
+                console.log('respuesta desde el backend', data);
+                if (response.ok) {
+                    setInstalaciones(data);
+                    console.log('tras fecth instalaciones', data);
+                } else {
+                    console.error('Error fetching instalaciones:', response);
+                }
             }
         };
+
         fetchInstalaciones();
     }, []);
 

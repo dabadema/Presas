@@ -1,7 +1,5 @@
-import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import MiPerfil from './MiPerfil';
-import Reservas from './Reservas';
 import Membresias from './Membresias';
 import Consultas from './Consultas';
 import NavBar from './NavBar';
@@ -11,6 +9,7 @@ import AdminComp from './AdminComp';
 import CentrosDeportivos from './CentrosDeportivos';
 import Instalaciones from './Instalaciones';
 import Home from './Home';
+import ReservasTable from './ReservasTable';
 
 const Dashboard = () => {
     const userInfo = JSON.parse(localStorage.getItem('userData') || '{}');
@@ -34,7 +33,10 @@ const Dashboard = () => {
                         <Route path="centros-deportivos" element={<CentrosDeportivos />} />
                     )}
                     <Route path="instalaciones" element={<Instalaciones />} />
-                    <Route path="reservas" element={<Reservas />} />
+                    <Route
+                        path="reservas"
+                        element={<ReservasTable reservas={[]} instalaciones={[]} />}
+                    />
                     <Route path="membresias" element={<Membresias />} />
                     <Route path="consultas" element={<Consultas />} />
                 </Routes>

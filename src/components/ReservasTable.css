@@ -1,64 +1,37 @@
 .reservas-table {
-    width: 90%; /* Ajusta al 90% del ancho de la ventana */
-    margin: 50px auto 0 auto; /* 50px arriba y centrado horizontalmente */
-    border-collapse: collapse; /* Elimina los espacios entre las celdas */
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* Sombra ligera para la tabla */
-    color: black;
+    margin: 20px;
 }
 
-.reservas-table thead {
-    background-color: #0f8e77; /* Color de fondo para la cabecera */
+select {
+    margin-bottom: 10px;
 }
 
-.reservas-table th,
-.reservas-table td {
-    padding: 15px; /* Espacio interno para celdas */
-    border: 1px solid #ddd; /* Borde de las celdas */
-    text-align: left; /* Alineación del texto */
+table {
+    width: 100%;
+    border-collapse: collapse;
 }
 
-.reservas-table th {
-    color: black; /* Color del texto de la cabecera */
-    font-weight: bold; /* Fuente en negrita para la cabecera */
-    border-bottom: 2px solid black;
+th,
+td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
 }
 
-.reservas-table tr:nth-child(odd) {
-    background-color: #f2f2f2; /* Color de fondo para las filas impares */
+th {
+    background-color: #f2f2f2;
 }
 
-.reservas-table tr:hover {
-    background-color: #e7f4f1; /* Color de fondo al pasar el ratón sobre las filas */
+.reservada {
+    background-color: #f8d7da;
+    cursor: not-allowed;
 }
 
-.reservas-table td {
-    position: relative; /* Posicionamiento relativo para la posición de los botones */
+.disponible {
+    background-color: #d4edda;
+    cursor: pointer;
 }
 
-.reservas-table button {
-    background-color: #5cf4c3; /* Fondo de los botones con el color turquesa */
-    color: black; /* Color del texto en los botones */
-    border: none; /* Sin borde */
-    padding: 10px 20px; /* Relleno alrededor del texto */
-    margin: 5px; /* Espacio alrededor del botón */
-    border-radius: 5px; /* Esquinas redondeadas */
-    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
-    transition: background-color 0.3s; /* Transición suave para el color de fondo */
-}
-
-.reservas-table button:hover {
-    background-color: #3aafa9; /* Cambio de color al pasar el ratón por encima */
-}
-
-/* Ajustes responsivos para que la tabla se vea bien en dispositivos móviles */
-@media (max-width: 768px) {
-    .reservas-table {
-        width: 100%; /* La tabla ocupa todo el ancho en móviles */
-        margin-top: 20px; /* Menos margen en la parte superior */
-    }
-
-    .reservas-table th,
-    .reservas-table td {
-        padding: 10px; /* Menos relleno para ahorrar espacio */
-    }
+td.disponible:hover {
+    background-color: #c3e6cb;
 }
