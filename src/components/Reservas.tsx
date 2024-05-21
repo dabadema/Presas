@@ -1,10 +1,10 @@
 import React from 'react';
-import './Reservas.css';
+import './UnderConstruction.css';
 
 const Reservas = () => {
     return (
         <>
-            <div className="title-reservas">
+            <div className="title-construction">
                 <h1>Reservas</h1>
             </div>
             <div className="under-construction">
