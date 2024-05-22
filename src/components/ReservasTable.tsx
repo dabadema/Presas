@@ -1,24 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import './ReservasTable.css';
 
-export type Reserva = {
-    userId: string;
-    instalacionId: string;
+interface Reserva {
     fechaHoraInicio: string;
     fechaHoraFin: string;
-};
+    instalacionId: string;
+    userId: string;
+}
 
-type ReservasTableProps = {
-    reservas: Reserva[];
-    instalaciones: string[];
-};
+interface Instalacion {
+    instalacionId: string;
+    nombre: string;
+}
 
-const ReservasTable: React.FC<ReservasTableProps> = ({}) => {
+interface CentroDeportivo {
+    centroId: string;
+    nombre: string;
+}
+
+const ReservasTable: React.FC<> = ({}) => {
     const [reservas, setReservas] = useState<Reserva[]>([]);
-    const [instalaciones, setInstalaciones] = useState<string[]>([]);
-    const [centroDeportivo, setCentroDeportivo] = useState<string | null>(null);
+    const [instalaciones, setInstalaciones] = useState<Instalacion | null>([]);
+    const [centroDeportivo, setCentroDeportivo] = useState<CentroDeportivo>([]);
+    const [centroDeportivoId, setCentroDeportivoId] = useState<string>('');
     const [instalacionSeleccionada, setInstalacionSeleccionada] = useState<string | null>(null);
-    const [tipoUsuario, setTipoUsuario] = useState<string | null>(null);
+    const [userId, setUserId] = useState<string | null>(null);
     const [fechasSemana, setFechasSemana] = useState<Date[]>([]);
     const [semanaOffset, setSemanaOffset] = useState<number>(0);
 
@@ -26,8 +32,10 @@ const ReservasTable: React.FC<ReservasTableProps> = ({}) => {
         const userDataString = localStorage.getItem('userData');
         if (userDataString) {
             const userData = JSON.parse(userDataString);
-            setTipoUsuario(userData.tipoUsuario);
-            console.log('usuario logueado', userData.tipoUsuario);
+            setUserId(userData.userId);
+            setCentroDeportivoId(userData.centroId);
+            console.log('user ID logueado', userData.userId);
+            console.log('centro ID logueado', centroDeportivoId);
         }
 
         const fetchCentroDeportivo = async () => {
@@ -38,20 +46,14 @@ const ReservasTable: React.FC<ReservasTableProps> = ({}) => {
                     `http://localhost:3000/centros-deportivos/${userData.centroId}`
                 );
                 const data = await response.json();
-                console.log('fetch centros deportivos', data);
+                console.log('respuesta desde el backend', data);
                 if (response.ok) {
-                    setCentroDeportivo(data[0]);
-                    console.log('fetch centros deportivos', centroDeportivo);
+                    setCentroDeportivo(data);
+                    console.log('fecth centro deportivo', data);
                 } else {
                     console.error('Error fetching centro deportivo:', response);
                 }
             }
-            const userData = JSON.parse(userDataString);
-            const activeUserId = userData.userId;
-
-            console.log('intento de userID', activeUserId);
-
-            return activeUserId;
         };
 
         fetchCentroDeportivo();
@@ -111,27 +113,35 @@ const ReservasTable: React.FC<ReservasTableProps> = ({}) => {
     };
 
     const handleInstalacionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setInstalacionSeleccionada(event.target.value);
+        const instalacionId = event.target.value;
+        setInstalacionSeleccionada(instalacionId);
     };
 
     const handleReservaClick = async (hora: string, dia: string) => {
-        if (instalacionSeleccionada && tipoUsuario) {
-            const fechaHoraInicio = `${dia}T${hora}:00`;
-            const fechaHoraFin = `${dia}T${(parseInt(hora) + 1).toString().padStart(2, '0')}:00`;
+        if (instalacionSeleccionada && userId) {
+            const fechaHoraInicio = new Date(`${dia} ${hora}:00:00.000+0200`);
 
-            const nuevaReserva: Reserva = {
-                fechaHoraInicio: fechaHoraInicio,
-                fechaHoraFin: fechaHoraFin,
-                instalacionId: instalacionSeleccionada,
-                userId: activeUserId,
-            };
+            const fechaHoraFin = new Date(fechaHoraInicio);
+            fechaHoraFin.setHours(fechaHoraInicio.getHours() + 1);
+
+            if (fechaHoraFin <= fechaHoraInicio) {
+                fechaHoraFin.setHours(fechaHoraInicio.getHours() + 1);
+            }
+
+            console.log(fechaHoraInicio, fechaHoraFin);
 
             const response = await fetch('http://localhost:3000/reservas', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(nuevaReserva),
+                body: JSON.stringify({
+                    fechaHoraInicio: fechaHoraInicio,
+                    fechaHoraFin: fechaHoraFin,
+                    userId: userId,
+                    instalacionId: instalacionSeleccionada,
+                    centroId: centroDeportivoId,
+                }),
             });
 
             if (response.ok) {
@@ -142,7 +152,6 @@ const ReservasTable: React.FC<ReservasTableProps> = ({}) => {
         }
     };
 
-    // Función para generar las horas de 10:00 a 22:00
     const generarHoras = () => {
         const horas = [];
         for (let i = 10; i <= 22; i++) {
@@ -151,7 +160,6 @@ const ReservasTable: React.FC<ReservasTableProps> = ({}) => {
         return horas;
     };
 
-    // Función para generar los días de la semana con fecha
     const generarDiasSemana = () => {
         const diasSemana = [
             'Lunes',
@@ -174,14 +182,22 @@ const ReservasTable: React.FC<ReservasTableProps> = ({}) => {
         });
     };
 
-    // Función para comprobar si una hora está reservada
     const isHoraReservada = (hora: string, dia: string) => {
-        return reservas.some(
-            (reserva) =>
-                reserva.horaInicio === hora &&
+        return reservas.some((reserva) => {
+            const inicioReserva = new Date(reserva.horaInicio);
+            const diaReserva = `${inicioReserva.getFullYear()}-${(inicioReserva.getMonth() + 1)
+                .toString()
+                .padStart(2, '0')}-${inicioReserva.getDate().toString().padStart(2, '0')}`;
+            const horaReserva = `${inicioReserva
+                .getHours()
+                .toString()
+                .padStart(2, '0')}:${inicioReserva.getMinutes().toString().padStart(2, '0')}`;
+            return (
                 reserva.instalacion === instalacionSeleccionada &&
-                reserva.dia === dia
-        );
+                diaReserva === dia &&
+                horaReserva === hora
+            );
+        });
     };
 
     const handleSemanaAnterior = () => {
@@ -199,7 +215,7 @@ const ReservasTable: React.FC<ReservasTableProps> = ({}) => {
                     Selecciona una instalación
                 </option>
                 {instalaciones.map((instalacion) => (
-                    <option key={instalacion.id} value={instalacion.id}>
+                    <option key={instalacion.instalacionId} value={instalacion.instalacionId}>
                         {instalacion.nombre}
                     </option>
                 ))}
@@ -222,28 +238,32 @@ const ReservasTable: React.FC<ReservasTableProps> = ({}) => {
                         {generarHoras().map((hora) => (
                             <tr key={hora}>
                                 <td>{hora}</td>
-                                {[
-                                    'Lunes',
-                                    'Martes',
-                                    'Miércoles',
-                                    'Jueves',
-                                    'Viernes',
-                                    'Sábado',
-                                    'Domingo',
-                                ].map((dia, index) => (
-                                    <td
-                                        key={dia}
-                                        className={
-                                            isHoraReservada(hora, dia) ? 'reservada' : 'disponible'
-                                        }
-                                        onClick={() =>
-                                            !isHoraReservada(hora, dia) &&
-                                            handleReservaClick(hora, dia)
-                                        }
-                                    >
-                                        {isHoraReservada(hora, dia) ? 'Reservado' : 'Disponible'}
-                                    </td>
-                                ))}
+                                {fechasSemana.map((fecha) => {
+                                    const dia = `${fecha.getFullYear()}-${(fecha.getMonth() + 1)
+                                        .toString()
+                                        .padStart(2, '0')}-${fecha
+                                        .getDate()
+                                        .toString()
+                                        .padStart(2, '0')}`;
+                                    return (
+                                        <td
+                                            key={dia}
+                                            className={
+                                                isHoraReservada(hora, dia)
+                                                    ? 'reservada'
+                                                    : 'disponible'
+                                            }
+                                            onClick={() =>
+                                                !isHoraReservada(hora, dia) &&
+                                                handleReservaClick(hora, dia)
+                                            }
+                                        >
+                                            {isHoraReservada(hora, dia)
+                                                ? 'Reservado'
+                                                : 'Disponible'}
+                                        </td>
+                                    );
+                                })}
                             </tr>
                         ))}
                     </tbody>
