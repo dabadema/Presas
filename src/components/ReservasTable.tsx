@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import './ReservasTable.css';
 
 export type Reserva = {
-    usuario: string;
-    instalacion: string;
-    horaInicio: string;
-    horaFin: string;
-    dia: string;
+    userId: string;
+    instalacionId: string;
+    fechaHoraInicio: string;
+    fechaHoraFin: string;
 };
 
 type ReservasTableProps = {
@@ -16,7 +15,7 @@ type ReservasTableProps = {
 
 const ReservasTable: React.FC<ReservasTableProps> = ({}) => {
     const [reservas, setReservas] = useState<Reserva[]>([]);
-    const [instalaciones, setInstalaciones] = useState<Instalacion[]>([]);
+    const [instalaciones, setInstalaciones] = useState<string[]>([]);
     const [centroDeportivo, setCentroDeportivo] = useState<string | null>(null);
     const [instalacionSeleccionada, setInstalacionSeleccionada] = useState<string | null>(null);
     const [tipoUsuario, setTipoUsuario] = useState<string | null>(null);
@@ -47,6 +46,12 @@ const ReservasTable: React.FC<ReservasTableProps> = ({}) => {
                     console.error('Error fetching centro deportivo:', response);
                 }
             }
+            const userData = JSON.parse(userDataString);
+            const activeUserId = userData.userId;
+
+            console.log('intento de userID', activeUserId);
+
+            return activeUserId;
         };
 
         fetchCentroDeportivo();
@@ -73,6 +78,12 @@ const ReservasTable: React.FC<ReservasTableProps> = ({}) => {
         calcularFechasSemana(semanaOffset);
     }, [semanaOffset]);
 
+    useEffect(() => {
+        if (instalacionSeleccionada) {
+            fetchReservas(instalacionSeleccionada, fechasSemana[0], fechasSemana[6]);
+        }
+    }, [instalacionSeleccionada, fechasSemana]);
+
     const calcularFechasSemana = (offset: number) => {
         const hoy = new Date();
         hoy.setDate(hoy.getDate() + offset * 7); // Ajusta la fecha según el offset de semanas
@@ -85,20 +96,49 @@ const ReservasTable: React.FC<ReservasTableProps> = ({}) => {
         setFechasSemana(semana);
     };
 
+    const fetchReservas = async (instalacionId: string, start: Date, end: Date) => {
+        const startISO = start.toISOString();
+        const endISO = end.toISOString();
+        const response = await fetch(
+            `http://localhost:3000/reservas/by-instalacion?instalacionId=${instalacionId}&start=${startISO}&end=${endISO}`
+        );
+        const data = await response.json();
+        if (response.ok) {
+            setReservas(data);
+        } else {
+            console.error('Error fetching reservas:', response);
+        }
+    };
+
     const handleInstalacionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setInstalacionSeleccionada(event.target.value);
     };
 
-    const handleReservaClick = (hora: string, dia: string) => {
+    const handleReservaClick = async (hora: string, dia: string) => {
         if (instalacionSeleccionada && tipoUsuario) {
+            const fechaHoraInicio = `${dia}T${hora}:00`;
+            const fechaHoraFin = `${dia}T${(parseInt(hora) + 1).toString().padStart(2, '0')}:00`;
+
             const nuevaReserva: Reserva = {
-                horaInicio: hora,
-                horaFin: (parseInt(hora) + 1).toString().padStart(2, '0') + ':00',
-                dia: dia,
-                instalacion: instalacionSeleccionada,
-                usuario: tipoUsuario,
+                fechaHoraInicio: fechaHoraInicio,
+                fechaHoraFin: fechaHoraFin,
+                instalacionId: instalacionSeleccionada,
+                userId: activeUserId,
             };
-            setReservas([...reservas, nuevaReserva]);
+
+            const response = await fetch('http://localhost:3000/reservas', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(nuevaReserva),
+            });
+
+            if (response.ok) {
+                fetchReservas(instalacionSeleccionada, fechasSemana[0], fechasSemana[6]);
+            } else {
+                console.error('Error creating reserva:', response);
+            }
         }
     };
 
