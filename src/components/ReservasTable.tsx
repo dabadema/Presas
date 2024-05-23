@@ -20,7 +20,7 @@ interface CentroDeportivo {
 
 const ReservasTable: React.FC<> = ({}) => {
     const [reservas, setReservas] = useState<Reserva[]>([]);
-    const [instalaciones, setInstalaciones] = useState<Instalacion | null>([]);
+    const [instalaciones, setInstalaciones] = useState<Instalacion>([]);
     const [centroDeportivo, setCentroDeportivo] = useState<CentroDeportivo>([]);
     const [centroDeportivoId, setCentroDeportivoId] = useState<string>('');
     const [instalacionSeleccionada, setInstalacionSeleccionada] = useState<string | null>(null);
@@ -82,7 +82,7 @@ const ReservasTable: React.FC<> = ({}) => {
 
     useEffect(() => {
         if (instalacionSeleccionada) {
-            fetchReservas(instalacionSeleccionada, fechasSemana[0], fechasSemana[6]);
+            fetchReservas(instalacionSeleccionada);
         }
     }, [instalacionSeleccionada, fechasSemana]);
 
@@ -98,12 +98,10 @@ const ReservasTable: React.FC<> = ({}) => {
         setFechasSemana(semana);
     };
 
-    const fetchReservas = async (instalacionId: string, start: Date, end: Date) => {
-        const startISO = start.toISOString();
-        const endISO = end.toISOString();
-        const response = await fetch(
-            `http://localhost:3000/reservas/by-instalacion?instalacionId=${instalacionId}&start=${startISO}&end=${endISO}`
-        );
+    const fetchReservas = async (instalacionId: string) => {
+        // const startISO = start.toISOString();
+        // const endISO = end.toISOString();
+        const response = await fetch(`http://localhost:3000/reservas/${instalacionId}`);
         const data = await response.json();
         if (response.ok) {
             setReservas(data);
@@ -128,7 +126,7 @@ const ReservasTable: React.FC<> = ({}) => {
                 fechaHoraFin.setHours(fechaHoraInicio.getHours() + 1);
             }
 
-            console.log(fechaHoraInicio, fechaHoraFin);
+            console.log('Nueva reserva en: ', fechaHoraInicio, fechaHoraFin);
 
             const response = await fetch('http://localhost:3000/reservas', {
                 method: 'POST',
@@ -145,7 +143,7 @@ const ReservasTable: React.FC<> = ({}) => {
             });
 
             if (response.ok) {
-                fetchReservas(instalacionSeleccionada, fechasSemana[0], fechasSemana[6]);
+                fetchReservas(instalacionSeleccionada);
             } else {
                 console.error('Error creating reserva:', response);
             }
@@ -184,7 +182,7 @@ const ReservasTable: React.FC<> = ({}) => {
 
     const isHoraReservada = (hora: string, dia: string) => {
         return reservas.some((reserva) => {
-            const inicioReserva = new Date(reserva.horaInicio);
+            const inicioReserva = new Date(reserva.fechaHoraInicio);
             const diaReserva = `${inicioReserva.getFullYear()}-${(inicioReserva.getMonth() + 1)
                 .toString()
                 .padStart(2, '0')}-${inicioReserva.getDate().toString().padStart(2, '0')}`;
@@ -193,7 +191,7 @@ const ReservasTable: React.FC<> = ({}) => {
                 .toString()
                 .padStart(2, '0')}:${inicioReserva.getMinutes().toString().padStart(2, '0')}`;
             return (
-                reserva.instalacion === instalacionSeleccionada &&
+                reserva.instalacionId === instalacionSeleccionada &&
                 diaReserva === dia &&
                 horaReserva === hora
             );
