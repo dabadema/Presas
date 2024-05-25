@@ -24,7 +24,7 @@ th {
 
 .reservada {
     background-color: #f8d7da;
-    cursor: not-allowed;
+    /* cursor: not-allowed; */
 }
 
 .disponible {

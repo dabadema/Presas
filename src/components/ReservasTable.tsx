@@ -6,6 +6,7 @@ interface Reserva {
     fechaHoraFin: string;
     instalacionId: string;
     userId: string;
+    reservaId: string;
 }
 
 interface Instalacion {
