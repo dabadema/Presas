@@ -70,7 +70,7 @@ const NavBar = ({ tipo_usuario }) => {
                         Reservas
                     </NavLink>
                 </li>
-                <li>
+                {/* <li>
                     <NavLink
                         to="/dashboard/membresias"
                         className={({ isActive }) => (isActive ? 'active' : '')}
@@ -85,7 +85,7 @@ const NavBar = ({ tipo_usuario }) => {
                     >
                         Consultas
                     </NavLink>
-                </li>
+                </li> */}
             </ul>
             <div className="logout-container">
                 <button className="danger-button" onClick={handleLogout}>
