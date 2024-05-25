@@ -24,7 +24,13 @@ th {
 
 .reservada {
     background-color: #f8d7da;
-    /* cursor: not-allowed; */
+    cursor: pointer;
+}
+
+.reservada:hover {
+    background-color: #dc626cde;
+    cursor: pointer;
+    font-weight: bold;
 }
 
 .disponible {
@@ -33,7 +39,8 @@ th {
 }
 
 td.disponible:hover {
-    background-color: #c3e6cb;
+    background-color: #95e9a9;
+    font-weight: bold;
 }
 
 .semana-controls {
