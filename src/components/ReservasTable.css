@@ -35,3 +35,11 @@ th {
 td.disponible:hover {
     background-color: #c3e6cb;
 }
+
+.semana-controls {
+    text-align: center;
+}
+
+.reservas-table {
+    text-align: center;
+}
